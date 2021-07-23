@@ -101,7 +101,7 @@ include(CMakePackageConfigHelpers)
 # Generates a package version file in the build directory
 write_basic_package_version_file(
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake"
-    VERSION 0.2.3
+    VERSION 0.2.5
     COMPATIBILITY AnyNewerVersion
     )
 

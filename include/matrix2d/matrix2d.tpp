@@ -93,7 +93,7 @@ void Matrix2d<V>::row_iter<I, VT>::decrement() {
 template <class V>
 template <class I, class VT>
 template <class I1, class VT1>
-typename Matrix2d<V>::template row_iter<I, VT>::difference_type
+typename Matrix2d<V>::difference_type //
 Matrix2d<V>::row_iter<I, VT>::distance_to(
     const row_iter<I1, VT1>& other) const {
   assert(size_ == other.size_);

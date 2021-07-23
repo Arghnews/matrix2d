@@ -92,13 +92,19 @@ public:
       : public boost::iterator_facade<row_iter<Iter, ValueType>, ValueType,
                                       std::random_access_iterator_tag,
                                       ValueType> {
+
+    // using Parent =
+    // boost::iterator_facade<row_iter<Iter, ValueType>, ValueType,
+    // std::random_access_iterator_tag, ValueType>;
+    // using typename Parent::size_type;
     using Iterator = Iter;
-    using size_type = size_type;
+    // using size_type = size_type;
     friend class boost::iterator_core_access;
     template <class> friend class Matrix2d;
 
   public:
-    using difference_type = difference_type;
+    // using difference_type = difference_type;
+    // using typename Parent::difference_type;
 
     row_iter() = default;
 
