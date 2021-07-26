@@ -3,7 +3,7 @@ import shutil
 
 class Matrix2dConan(ConanFile):
     name = "matrix2d"
-    version = "0.2.5"
+    version = "0.2.6"
     license = "MIT"
     author = "Justin Riddell - arghnews@hotmail.co.uk"
     url = "https://github.com/Arghnews/matrix2d"

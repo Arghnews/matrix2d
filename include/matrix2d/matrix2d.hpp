@@ -147,6 +147,9 @@ public:
   size_type size() const { return data_.size(); }
   bool empty() const { return data_.empty(); }
 
+  value_type* data() { return data_.data(); }
+  const value_type* data() const { return data_.data(); }
+
   template <class T> struct rows_iterable_wrapper {
     T iterable;
     auto begin() { return iterable.rows_begin(); }

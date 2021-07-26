@@ -158,21 +158,8 @@ std::string Matrix2d<V>::to_string(const std::string_view elem_delim,
 
   // See dynamic width https://fmt.dev/7.1.3/syntax.html#format-examples
   return rows | ranges::views::transform([elem_delim, width](const auto& row) {
-           // For every row
-           return ranges::views::all(row) // For each row
-                  | ranges::views::transform([width](const auto& elem) {
-                      // Format each element with padding
-                      return fmt::format("{:>{}}", elem, width);
-                    })
-                  // Can't use views::join because views::transform returns a
-                  // temporary.
-                  // Can't use actions::join as it doesn't support a delimiter
-                  // https://github.com/ericniebler/range-v3/issues/1406
-                  // views::intersperse and actions::join works
-                  //
-                  // Add delimiters, combine into one string for the row
-                  | ranges::views::intersperse(std::string{elem_delim}) |
-                  ranges::actions::join;
+           // https://old.reddit.com/r/cpp/comments/opuu92/whats_up_with_c_ranges/h68o4ey/
+           return fmt::format("{:>{}}", fmt::join(row, elem_delim), width);
          }) |
          ranges::views::cache1 | ranges::views::join(row_delim) |
          ranges::to<std::string>();

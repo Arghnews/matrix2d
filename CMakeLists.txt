@@ -8,18 +8,19 @@ project(matrix2d)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
 list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
 
-set(${PROJECT_NAME}_DEVELOPER_FLAGS FALSE CACHE BOOL "Enable warning/sanitizer flags during development of library")
-if (${PROJECT_NAME}_DEVELOPER_FLAGS)
+set(DEVELOPER_FLAGS FALSE CACHE BOOL "Enable warning/sanitizer flags during development of library")
+if (DEVELOPER_FLAGS)
     string(JOIN " " COMPILER_FLAGS "-Wall -Wextra -pedantic -Wfloat-equal"
     "-Wwrite-strings -Wswitch-enum -Wunreachable-code -Wconversion"
     "-Wcast-qual -Wstrict-overflow=5 -Werror=uninitialized"
     "-Werror=return-type -pipe -fdiagnostics-color")
 
-    string(APPEND CMAKE_CXX_FLAGS_DEBUG " -g -O0 ${COMPILER_FLAGS} ")
+    string(APPEND CMAKE_CXX_FLAGS " ${COMPILER_FLAGS} ")
 
     set(SANITIZERS " -fsanitize=address,undefined ")
     string(APPEND CMAKE_CXX_FLAGS_DEBUG " -fno-omit-frame-pointer ${SANITIZERS} ")
     string(APPEND CMAKE_EXE_LINKER_FLAGS_DEBUG " -fno-omit-frame-pointer ${SANITIZERS} -fuse-ld=lld ")
+
     string(APPEND CMAKE_CXX_FLAGS_RELEASE " -fno-omit-frame-pointer ${SANITIZERS} ")
     string(APPEND CMAKE_EXE_LINKER_FLAGS_RELEASE " -fno-omit-frame-pointer ${SANITIZERS} -fuse-ld=lld ")
 
@@ -123,10 +124,10 @@ install(FILES
           DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
 )
 
-if (${PROJECT_NAME}_DEVELOPER_FLAGS)
-    add_executable(main EXCLUDE_FROM_ALL main.cpp)
-    target_link_libraries(main ${PROJECT_NAME}::${PROJECT_NAME} fmt::fmt)
-    set_target_properties(main PROPERTIES
+if (DEVELOPER_FLAGS)
+    add_executable(matrix2d_example example/example.cpp)
+    target_link_libraries(matrix2d_example ${PROJECT_NAME}::${PROJECT_NAME})
+    set_target_properties(matrix2d_example PROPERTIES
         CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON CXX_EXTENSIONS OFF)
 endif()
 

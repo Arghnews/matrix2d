@@ -9,6 +9,7 @@
 #include "range/v3/view/chunk.hpp"
 #include "range/v3/view/zip.hpp"
 
+#include <algorithm>
 #include <array>
 #include <iostream>
 #include <iterator>
@@ -138,4 +139,19 @@ TEST_CASE("Matrix rows_iter", "[]") {
   for (auto row : cm.rows_iter()) {
     static_assert(std::is_const_v<std::remove_reference_t<decltype(row[0])>>);
   }
+}
+
+TEST_CASE("Test contiguous", "[]") {
+  matrix2d::Matrix2d<int> m{5, 3}; // 5 rows, 3 elements per row
+  auto rows_it = m.rows_begin();
+  auto end_of_first_row = rows_it->end();
+
+  const auto last_element_of_first_row = std::prev(end_of_first_row);
+  const auto first_of_second_row = std::next(m.rows_begin())->begin();
+
+  REQUIRE(reinterpret_cast<char*>(&*last_element_of_first_row) +
+              sizeof(decltype(m)::value_type) ==
+          reinterpret_cast<char*>(&*first_of_second_row));
+  REQUIRE(m.data() == &*m.begin());
+  REQUIRE(m.data() == m.rows_begin()->data());
 }
